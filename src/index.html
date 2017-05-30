@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="utf-8" />
+        <meta Access-Control-Allow-Origin="*"/>
+        <title>Ripple recovery tool</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <meta content="Alix Mougel" name="author" />
+        <style>
+            body {
+                padding-bottom: 32px;
+            }
+            .form-control[readonly] {
+                cursor: text;
+            }
+            .feedback-container {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                text-align: center;
+                z-index: 4;
+            }
+            .feedback {
+                display: table;
+                padding: 0.5em 1em;
+                background-color: orange;
+                margin: 0 auto;
+                font-size: 2em;
+                color: #444;
+                border: 2px solid #555;
+                border-top: 0;
+                border-bottom-left-radius: 20px 20px;
+                border-bottom-right-radius: 20px 20px;
+            }
+            .no-border {
+                border: 0;
+                box-shadow: inset 0 1px 1px rgba(0,250,0,.9);
+                -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.0);
+            }
+            .phrase {
+                word-break: keep-all;
+            }
+            .generate-container .strength {
+                /* override mobile width from bootstrap */
+                width: auto!important;
+                display: inline-block;
+            }
+            .languages a {
+                padding-left: 10px;
+            }
+            .languages a:nth-of-type(1) {
+                margin-left: -12px;
+                padding-left: 0;
+            }
+            .monospace {
+                font-family: monospace;
+            }
+            .entropy-container .filtered,
+            .entropy-container .binary {
+                word-wrap: break-word;
+            }
+            .entropy-container li {
+                padding-bottom: 5px;
+            }
+            .card-suit {
+                font-size: 19px;
+                line-height: 0;
+            }
+            .card-suit.club {
+                color: #009F00;
+            }
+            .card-suit.diamond {
+                color: #3D5DC4;
+            }
+            .card-suit.heart {
+                color: #F00;
+            }
+            .card-suit.spade {
+                color: #000;
+            }
+            .qr-container {
+                position: fixed;
+                top: 0;
+                right: 0;
+                text-align: center;
+                background-color: #FFF;
+                border: 1px solid #CCC;
+            }
+            .qr-image {
+                margin: 5px;
+            }
+            .qr-hint,
+            .qr-warning {
+                padding: 2px;
+                max-width: 150px;
+            }
+            .more-info {
+                cursor: help;
+                border-bottom: 1px dashed #000;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="text-center">Ripple recovery tool</h1>
+            <hr>
+            Ripple node: <input type="text" id="node" value="wss://s1.ripple.com"><br>
+            <button id ="connect">Connect</button><br>
+             Ripple address: <input type="text" id="account" value="rBp6cxtqsVKQb5aKsvHZxVxDUvMr7BUKxF"><br>
+            <button id ="getBalance">Get Balance</button> <h2 id="balance"></h2>
+            Public key (hexadecimal): <input type="text" id="publicKey" value="039e4e8fe03ffb2b732a06da881a4705adba7af723545a89da437427d1b0c3e58f"><br>
+            Private key (hexadecimal): <input type="text" id="privateKey" value="a3086b2fb7d561861a086d0c15884d005eb831662d71af1cded26c6ce56201bf01"><br>
+            Amount to send in drops: <input type="text" id="amount" value="1000000"><br>
+            Fees in drops: <input type="text" id="fees" value="10"><br>
+            Tag: <input type="text" id="tag" value="123456789"><br>
+            Recipient address: <input type="text" id="recipient" value="rhGxojnVnEhPQFfMsQ9BK81keWzs6Lzfpv"><br>
+            <button id ="send">Send</button><br>
+        <p id="display">    
+        </p>
+        </div>
+        <script src="../index_browserified.js"></script>
+    </body>
+</html>

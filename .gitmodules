@@ -1,0 +1,3 @@
+[submodule "src/js/ripple-lib"]
+	path = src/js/ripple-lib
+	url = git@github.com:LedgerHQ/ripple-lib.git
