@@ -1,0 +1,28 @@
+{
+  "name": "ripple-recovery-tool",
+  "version": "0.0.1",
+  "dependencies": {
+	"babel-polyfill": "^6.3.14",
+    "babel-runtime": "^6.3.19",
+    "bufferutil": "3.0.*",
+    "bignumber.js": "^2.0.3",
+    "https-proxy-agent": "^1.0.0",
+    "jsonschema": "^1.1.1",
+    "lodash": "^3.1.0",
+    "ripple-address-codec": "^2.0.1",
+    "ripple-binary-codec": "^0.1.10",
+    "ripple-hashes": "^0.3.0",
+    "ripple-keypairs": "^0.10.0",
+    "ripple-lib-transactionparser": "^0.6.0",
+    "ws": "^1.0.1",
+    "utf-8-validate": "3.0.*",
+    "jquery": "3.2.*"
+  },
+  "devDependencies": {
+  },
+  "scripts": {
+  },
+  "engines": {
+    "node": ">=0.12.0"
+  }
+}
