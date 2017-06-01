@@ -1,5 +1,3 @@
 # ripple-recovery-tool
 
-Build with :
-
-$ python compile.py
+Make payment transaction from a Ripple account using the private key.
