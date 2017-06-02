@@ -32,8 +32,7 @@ function main() {
                     properties: {
                         privateKey: {
                             description: "Enter the private key in hexadecimal format (without prefix)",
-                            pattern: /^[0-9A-Fa-f]{64}$/,
-                            message: 'The key is 64 characters ',
+                            pattern: /^[0-9A-Fa-f]+$/,
                             required: true,
                             before: function(value) {return "00"+value.toUpperCase()}
                         },
