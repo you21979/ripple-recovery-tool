@@ -26,6 +26,7 @@ function main() {
     prompt.start();
     prompt.get(schema, function (err, result) {
         connect(result.node).then((val) => {
+        console.log("TEST")
             var balance = getBalance(result.account).then((bal) => {
                 console.log("There are "+bal+" XRP on this address")
                 schema = {
