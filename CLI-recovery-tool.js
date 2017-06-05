@@ -1,5 +1,5 @@
-const {RippleAPI} = require('./src/js/ripple-lib/dist/npm/index.js');
-const keypair = require('ripple-keypairs')
+const {RippleAPI} = require('./ripple-lib/dist/npm/index.js');
+const keypair = require('ripple-keypairs');
 const elliptic = require('elliptic');
 const Secp256k1 = elliptic.ec('secp256k1');
 const utils = require('./utils');
@@ -26,7 +26,6 @@ function main() {
     prompt.start();
     prompt.get(schema, function (err, result) {
         connect(result.node).then((val) => {
-        console.log("TEST")
             var balance = getBalance(result.account).then((bal) => {
                 console.log("There are "+bal+" XRP on this address")
                 schema = {
@@ -64,10 +63,10 @@ function main() {
                         }
                     }
                 };
-                const publicKey = bytesToHex(
+                prompt.get(schema, function (err, result2) {
+                    const publicKey = bytesToHex(
                       Secp256k1.keyFromPrivate(result2.privateKey).getPublic().encodeCompressed()
                     );
-                prompt.get(schema, function (err, result2) {
                     send(
                     result2.amount,
                     result.account,
@@ -76,6 +75,7 @@ function main() {
                     result2.tag,
                     publicKey,
                     result2.privateKey).then(() => {console.log("success");
+                    console.log("End of recovery, you can close this window and check online the state of the transaction.")
                     })
                 })
 
@@ -133,7 +133,7 @@ function send(amount, account, recipient, fees, tag, publicKey, privateKey) {
             fee: fees
         }
         ).then((val) => {
-            var signed = api.signWithKeypair(val.txJSON, {publicKey: publicKey, privateKey: privateKey})
+            var signed = api.sign(val.txJSON, {publicKey: publicKey, privateKey: privateKey})
             return api.submit(
                 signed.signedTransaction
             ).then((val) => {
