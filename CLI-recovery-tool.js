@@ -21,7 +21,7 @@ var schema = {
     }
 };
 
-function log(str) {console.log("debug:"+JSON.stringify(str))}
+function log(str) {console.log(JSON.stringify(str))}
 function main() {
     prompt.start();
     prompt.get(schema, function (err, result) {
@@ -64,9 +64,7 @@ function main() {
                     }
                 };
                 prompt.get(schema, function (err, result2) {
-                    const publicKey = bytesToHex(
-                      Secp256k1.keyFromPrivate(result2.privateKey).getPublic().encodeCompressed()
-                    );
+                    const publicKey = bytesToHex(Secp256k1.keyFromPrivate(result2.privateKey).getPublic().encodeCompressed());
                     send(
                     result2.amount,
                     result.account,
@@ -74,13 +72,11 @@ function main() {
                     result2.fees,
                     result2.tag,
                     publicKey,
-                    result2.privateKey).then(() => {console.log("success");
-                    console.log("End of recovery, you can close this window and check online the state of the transaction.")
+                    result2.privateKey).then(() => {
+                    console.log("End of transaction, close this window and double check the state of the transaction online : https://xrpcharts.ripple.com/#/graph")
                     })
                 })
-
             })
-
         }).catch(function (error) {console.log("error", error)})
     })
 }
@@ -133,11 +129,17 @@ function send(amount, account, recipient, fees, tag, publicKey, privateKey) {
             fee: fees
         }
         ).then((val) => {
-            var signed = api.sign(val.txJSON, {publicKey: publicKey, privateKey: privateKey})
+            /*var tmp = JSON.parse(val.txJSON)
+            tmp.LastLedgerSequence = 30180597;
+            val.txJSON = JSON.stringify(tmp);
+            log(val);*/
+            //log({publicKey: publicKey, privateKey: privateKey});
+            var signed = api.sign(val.txJSON, {privateKey: privateKey, publicKey: publicKey})
+            //log(signed);
             return api.submit(
                 signed.signedTransaction
             ).then((val) => {
-                log(val)
+                log(val.resultMessage)
                 return true
             })
         })
