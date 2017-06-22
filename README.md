@@ -6,7 +6,7 @@ Make payment transaction from a Ripple account using the private key.
 Install [Node](https://nodejs.org/en/)
 
 # Install GIT
-[GIT](https://git-scm.com/)
+Install [GIT](https://git-scm.com/).
 For windows users, during installation, choose the option to install the git bash
 
 # Download and build the project
