@@ -15,12 +15,7 @@ Open a terminal (Windows users, right click and select "open git bash here")
 $ git clone https://github.com/LedgerHQ/ripple-recovery-tool.git
 $ cd ripple-recovery-tool/ripple-lib
 $ npm install
-$ cd ..
-$ npm install
 ```
-
-# Get your private key
-Download the [BIP39 tool](https://github.com/iancoleman/bip39/raw/master/bip39-standalone.html) and launch it from a secure offline computer. Type in your 24 words, select Ripple from the coin drop down list. Your private key is the first one in the table "Derived Addresses".
 
 # Launch the tool
 Reconnect to the internet then open a terminal
