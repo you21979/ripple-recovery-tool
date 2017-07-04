@@ -2,6 +2,7 @@ const {RippleAPI} = require('ripple-lib');
 const sign = require('ripple-sign-keypairs');
 const bip32 = require('ripple-bip32');
 const bip39 = require('bip39');
+const assert = require('assert');
 var prompt = require('prompt');
 
 var schema = {
@@ -19,7 +20,10 @@ var schema = {
 };
 
 function mnemonic2keypairs (mnemonic) {
-    return bip32.fromSeedBuffer(bip39.mnemonicToSeed(mnemonic)).derivePath("m/44'/144'/0'/0/0").keyPair.getKeyPairs()
+    var derived = bip32.fromSeedBuffer(bip39.mnemonicToSeed(mnemonic)).derivePath("m/44'/144'/0'/0/0")
+    var result = derived.keyPair.getKeyPairs()
+    result.address = derived.getAddress()
+    return result
 }
 
 function log(str) {console.log(JSON.stringify(str))}
@@ -66,6 +70,7 @@ function main() {
                 };
                 prompt.get(schema, function (err, result2) {
                     var keyPairs = JSON.parse(result2.keyPairs)
+                    assert(keyPairs.address === result.account)
                     send(
                     result2.amount,
                     result.account,
