@@ -3,14 +3,13 @@
   "version": "0.0.1",
   "dependencies": {
     "prompt": "0.2.*",
-    "ripple-keypairs": "^0.10.0",
-    "elliptic":"6.4.0",
-    "secp256k1":"3.2.5"
+    "ripple-lib": "",
+    "ripple-bip32": "",
+    "bip39": "",
+    "ripple-sign-keypairs": ""
   },
-  "devDependencies": {
-  },
-  "scripts": {
-  },
+  "devDependencies": {},
+  "scripts": {},
   "engines": {
     "node": ">=0.12.0"
   }

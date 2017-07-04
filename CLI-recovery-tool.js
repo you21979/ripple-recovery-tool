@@ -1,10 +1,7 @@
-const {RippleAPI} = require('./ripple-lib/dist/npm/index.js');
-const keypair = require('ripple-keypairs');
-const elliptic = require('elliptic');
-const Secp256k1 = elliptic.ec('secp256k1');
-const utils = require('./utils');
-const hexToBytes = utils.hexToBytes;
-const bytesToHex = utils.bytesToHex;
+const {RippleAPI} = require('ripple-lib');
+const sign = require('ripple-sign-keypairs');
+const bip32 = require('ripple-bip32');
+const bip39 = require('bip39');
 var prompt = require('prompt');
 
 var schema = {
@@ -21,6 +18,10 @@ var schema = {
     }
 };
 
+function mnemonic2keypairs (mnemonic) {
+    return bip32.fromSeedBuffer(bip39.mnemonicToSeed(mnemonic)).derivePath("m/44'/144'/0'/0/0").keyPair.getKeyPairs()
+}
+
 function log(str) {console.log(JSON.stringify(str))}
 function main() {
     prompt.start();
@@ -30,11 +31,11 @@ function main() {
                 console.log("There are "+bal+" XRP on this address")
                 schema = {
                     properties: {
-                        privateKey: {
-                            description: "Enter the private key in hexadecimal format (without prefix)",
-                            pattern: /^[0-9A-Fa-f]+$/,
+                        keyPairs: {
+                            description: "Enter the BIP39 Mnemonic 24 words",
+                            type: 'string',
                             required: true,
-                            before: function(value) {return "00"+value.toUpperCase()}
+                            before: function(value) {return JSON.stringify(mnemonic2keypairs(value))}
                         },
                         fees: {
                             description: "Enter the fees for the transaction in drops",
@@ -64,15 +65,15 @@ function main() {
                     }
                 };
                 prompt.get(schema, function (err, result2) {
-                    const publicKey = bytesToHex(Secp256k1.keyFromPrivate(result2.privateKey).getPublic().encodeCompressed());
+                    var keyPairs = JSON.parse(result2.keyPairs)
                     send(
                     result2.amount,
                     result.account,
                     result2.recipient,
                     result2.fees,
                     result2.tag,
-                    publicKey,
-                    result2.privateKey).then(() => {
+                    keyPairs.publicKey,
+                    keyPairs.privateKey).then(() => {
                     console.log("End of transaction, close this window and double check the state of the transaction online : https://xrpcharts.ripple.com/#/graph")
                     })
                 })
@@ -134,7 +135,7 @@ function send(amount, account, recipient, fees, tag, publicKey, privateKey) {
             val.txJSON = JSON.stringify(tmp);
             log(val);*/
             //log({publicKey: publicKey, privateKey: privateKey});
-            var signed = api.sign(val.txJSON, {privateKey: privateKey, publicKey: publicKey})
+            var signed = sign(val.txJSON, {privateKey: privateKey, publicKey: publicKey})
             //log(signed);
             return api.submit(
                 signed.signedTransaction
